@@ -15,25 +15,21 @@ app.get("/", (req, res) => {
 });
 
 app.get("/todo", async (req, res) => {
-  GetTodo.init();
-  const todolist = await GetTodo.getAll();
+  const todolist = await GetTodo.getAll(prisma);
   res.json(todolist);
 });
 
 app.get("/todo/:id", async (req, res) => {
-  GetTodo.init();
-  const todo = await GetTodo.getById(Number(req.params.id));
+  const todo = await GetTodo.getById(prisma, Number(req.params.id));
   res.json(todo);
 });
 
 app.delete("/todo", async (req, res) => {
-  DeleteTodo.init();
-  DeleteTodo.delete(Number(req.body.id));
+  DeleteTodo.delete(prisma, Number(req.body.id));
 });
 
 app.post("/todo", async (req, res) => {
-  InsertTodo.init();
-  InsertTodo.insert(req.body.message);
+  InsertTodo.insert(prisma, req.body.message);
 });
 
 export default app;

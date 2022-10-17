@@ -1,16 +1,11 @@
 import { PrismaClient, Todo } from "@prisma/client";
 
 export class GetTodo {
-  private static prisma: PrismaClient;
-  constructor() {}
-
-  public static init(): GetTodo {
-    this.prisma = new PrismaClient();
-    return this;
-  }
-
-  public static async getById(id: number): Promise<Todo | null> {
-    const todo = await this.prisma.todo.findUnique({
+  public static async getById(
+    prisma: PrismaClient,
+    id: number
+  ): Promise<Todo | null> {
+    const todo = await prisma.todo.findUnique({
       where: {
         id: id,
       },
@@ -18,8 +13,8 @@ export class GetTodo {
     return todo;
   }
 
-  public static async getAll(): Promise<Todo[]> {
-    const todo = await this.prisma.todo.findMany();
+  public static async getAll(prisma: PrismaClient): Promise<Todo[]> {
+    const todo = await prisma.todo.findMany();
     return todo;
   }
 }
