@@ -1,21 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import app from "./app";
 
-const prisma = new PrismaClient();
+const PORT = process.env.PORT || 3000;
 
-async function main() {
-  const user = await prisma.todo.create({
-    data: {
-      message: "Testメッセージ",
-    },
-  });
-  console.log(user); // { id: 1, name: 'Alice' }
-}
-
-main()
-  .catch((e) => {
-    throw new Error(e);
-  })
-  .finally(async () => {
-    // データベースとのコネクションを切る
-    await prisma.$disconnect();
-  });
+app.listen(PORT, () => {
+  console.log(`REST API server ready at: http://localhost:${PORT}`);
+});
