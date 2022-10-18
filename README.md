@@ -77,6 +77,14 @@ body
 { "message": "テスト" }
 ```
 
+response
+
+```json
+{
+  "message": "inserted"
+}
+```
+
 ### DELETE
 
 `/todo`
@@ -85,6 +93,14 @@ body
 
 ```json
 { "id": "1" }
+```
+
+response
+
+```json
+{
+  "message": "inserted"
+}
 ```
 
 ### 不正なリクエスト
