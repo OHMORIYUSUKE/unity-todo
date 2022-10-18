@@ -15,21 +15,72 @@ app.get("/", (req, res) => {
 });
 
 app.get("/todo", async (req, res) => {
-  const todolist = await GetTodo.getAll(prisma);
-  res.json(todolist);
+  try {
+    const todolist = await GetTodo.getAll(prisma);
+    res.json(todolist);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({
+      error: {
+        message: "Internal server error.",
+      },
+    });
+  }
 });
 
 app.get("/todo/:id", async (req, res) => {
-  const todo = await GetTodo.getById(prisma, Number(req.params.id));
-  res.json(todo);
+  try {
+    const todo = await GetTodo.getById(prisma, Number(req.params.id));
+    if (todo === null) {
+      return res.status(404).json({
+        error: {
+          message: "Not the todo found.",
+        },
+      });
+    }
+    res.json(todo);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({
+      error: {
+        message: "Internal server error.",
+      },
+    });
+  }
 });
 
 app.delete("/todo", async (req, res) => {
-  DeleteTodo.delete(prisma, Number(req.body.id));
+  try {
+    const todo = await GetTodo.getById(prisma, Number(req.body.id));
+    if (todo === null) {
+      return res.status(404).json({
+        error: {
+          message: "Not the todo found.",
+        },
+      });
+    }
+    DeleteTodo.delete(prisma, Number(req.body.id));
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({
+      error: {
+        message: "Internal server error.",
+      },
+    });
+  }
 });
 
 app.post("/todo", async (req, res) => {
-  InsertTodo.insert(prisma, req.body.message);
+  try {
+    InsertTodo.insert(prisma, req.body.message);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({
+      error: {
+        message: "Internal server error.",
+      },
+    });
+  }
 });
 
 export default app;
