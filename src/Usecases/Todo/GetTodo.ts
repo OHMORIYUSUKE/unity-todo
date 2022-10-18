@@ -5,16 +5,24 @@ export class GetTodo {
     prisma: PrismaClient,
     id: number
   ): Promise<Todo | null> {
-    const todo = await prisma.todo.findUnique({
-      where: {
-        id: id,
-      },
-    });
-    return todo;
+    try {
+      const todo = await prisma.todo.findUnique({
+        where: {
+          id: id,
+        },
+      });
+      return todo;
+    } catch (e) {
+      throw new Error("can not get Todo");
+    }
   }
 
   public static async getAll(prisma: PrismaClient): Promise<Todo[]> {
-    const todo = await prisma.todo.findMany();
-    return todo;
+    try {
+      const todo = await prisma.todo.findMany();
+      return todo;
+    } catch (e) {
+      throw new Error("can not get Todo");
+    }
   }
 }

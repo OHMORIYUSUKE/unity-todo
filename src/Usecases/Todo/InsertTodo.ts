@@ -5,12 +5,16 @@ export class InsertTodo {
     prisma: PrismaClient,
     message: string
   ): Promise<void> {
-    const todo = await prisma.todo.create({
-      data: {
-        message: message,
-      },
-    });
-    console.log(todo);
+    try {
+      const todo = await prisma.todo.create({
+        data: {
+          message: message,
+        },
+      });
+      console.log(todo);
+    } catch (e) {
+      throw new Error("can not insert");
+    }
     return;
   }
 }

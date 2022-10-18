@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
 app.get("/todo", async (req, res) => {
   try {
     const todolist = await GetTodo.getAll(prisma);
-    res.json(todolist);
+    return res.json(todolist);
   } catch (e) {
     console.log(e);
     return res.status(500).json({
@@ -38,7 +38,7 @@ app.get("/todo/:id", async (req, res) => {
         },
       });
     }
-    res.json(todo);
+    return res.json(todo);
   } catch (e) {
     console.log(e);
     return res.status(500).json({
@@ -59,7 +59,8 @@ app.delete("/todo", async (req, res) => {
         },
       });
     }
-    DeleteTodo.delete(prisma, Number(req.body.id));
+    await DeleteTodo.delete(prisma, Number(req.body.id));
+    return res.json({ message: "deleted" });
   } catch (e) {
     console.log(e);
     return res.status(500).json({
@@ -72,7 +73,8 @@ app.delete("/todo", async (req, res) => {
 
 app.post("/todo", async (req, res) => {
   try {
-    InsertTodo.insert(prisma, req.body.message);
+    await InsertTodo.insert(prisma, req.body.message);
+    return res.json({ message: "inserted" });
   } catch (e) {
     console.log(e);
     return res.status(500).json({
