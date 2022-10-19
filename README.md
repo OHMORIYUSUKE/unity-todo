@@ -13,6 +13,9 @@ $ npm run prisma:seed
 $ npm run dev
 ```
 
+> M1 mac の場合は Docker ビルド時に`--platform linux/amd64`を指定してください。
+> https://toyo.hatenablog.jp/entry/2022/03/02/234159
+
 ## URL
 
 ### API
