@@ -49,9 +49,9 @@ app.get("/todo/:id", async (req, res) => {
   }
 });
 
-app.delete("/todo", async (req, res) => {
+app.delete("/todo?id=:id", async (req, res) => {
   try {
-    const todo = await GetTodo.getById(prisma, Number(req.body.id));
+    const todo = await GetTodo.getById(prisma, Number(req.query.id));
     if (todo === null) {
       return res.status(404).json({
         error: {
@@ -59,7 +59,7 @@ app.delete("/todo", async (req, res) => {
         },
       });
     }
-    await DeleteTodo.delete(prisma, Number(req.body.id));
+    await DeleteTodo.delete(prisma, Number(req.query.id));
     return res.json({ message: "deleted" });
   } catch (e) {
     console.log(e);
